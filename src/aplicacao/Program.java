@@ -35,15 +35,16 @@ public class Program {
 			checkout = sdf.parse(sc.next());
 			
 			Date agora = new Date();
-			if(checkin.before(agora) || checkout.before(agora)) {
-				System.out.println(" As datas de atualização  devem ser futuras");
-			}else if(!checkout.after(checkin)){
-				System.out.println("a data de saida dever ser apos a data de entrada");
-			}else {
 			
-			reserva.alterarReservas(checkin, checkout);
+			
+			String erro = reserva.alterarReservas(checkin, checkout);
+		if(erro !=null) {
+			System.out.println(erro);
+		}else {
+			System.out.println(reserva);
+		}
 			 
-		System.out.println(reserva);
+			
 			}
 		
 		}
@@ -54,4 +55,4 @@ public class Program {
 		
 	}
 
-}
+

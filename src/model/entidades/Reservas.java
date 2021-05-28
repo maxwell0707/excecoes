@@ -5,65 +5,71 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Reservas {
-	
+
 	private Integer numeroQuarto;
 	private Date checkin;
 	private Date checkout;
-	
+
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
 	public Reservas() {
-		
+
 	}
+
 	public Reservas(Integer numeroQuarto, Date checkin, Date checkout) {
 		super();
 		this.numeroQuarto = numeroQuarto;
 		this.checkin = checkin;
 		this.checkout = checkout;
 	}
+
 	public Integer getNumeroQuarto() {
 		return numeroQuarto;
 	}
+
 	public void setNumeroQuarto(Integer numeroQuarto) {
 		this.numeroQuarto = numeroQuarto;
 	}
+
 	public Date getCheckin() {
 		return checkin;
 	}
-	
+
 	public Date getCheckout() {
 		return checkout;
 	}
-	
-	
+
 	public long duracao() {
-		//duração em milisegundos
+		// duração em milisegundos
 		long diferenca = checkout.getTime() - checkin.getTime();
-		
+
 		return TimeUnit.DAYS.convert(diferenca, TimeUnit.MILLISECONDS);
-				
+
 	}
-	
-	public void alterarReservas(Date checkin, Date checkout) {
-		this.checkin = checkin;
-		this.checkout =checkout;
+
+	public String alterarReservas(Date checkinn, Date checkoout) {
+
+		Date agora = new Date();
+		if (checkinn.before(agora) || checkoout.before(agora)) {
+			return " As datas de atualização  devem ser futuras";
+			
+		} else if (!checkoout.after(checkinn)) {
+			
+			return "a data de saida dever ser apos a data de entrada";
+		} else {
+			this.checkin = checkinn;
+			this.checkout = checkoout;
+			return null;
+		}
 		
 	}
+
 	@Override
 	public String toString() {
-		
-		return "\nnumero do quarto: " 
-				+numeroQuarto
-				+"\ncheckin: "
-				+sdf.format(checkin)
-				+"\ncheckout: "
-				+sdf.format(checkout)
-				+"\nNoites: "
-				+ duracao();
-				
+
+		return "\nnumero do quarto: " + numeroQuarto + "\ncheckin: " + sdf.format(checkin) + "\ncheckout: "
+				+ sdf.format(checkout) + "\nNoites: " + duracao();
+
 	}
-	
-	
-	
-	
 
 }
