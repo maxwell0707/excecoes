@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.exception.DominioException;
+
 public class Reservas {
 
 	private Integer numeroQuarto;
@@ -17,7 +19,15 @@ public class Reservas {
 	}
 
 	public Reservas(Integer numeroQuarto, Date checkin, Date checkout) {
-		super();
+		Date agora = new Date();
+		if (checkin.before(agora) || checkout.before(agora)) {
+			throw new DominioException(" As datas  devem ser futuras");
+
+		}
+		if (!checkout.after(checkin)) {
+
+			throw new DominioException("a data de saida dever ser apos a data de entrada");
+		}
 		this.numeroQuarto = numeroQuarto;
 		this.checkin = checkin;
 		this.checkout = checkout;
@@ -47,21 +57,22 @@ public class Reservas {
 
 	}
 
-	public String alterarReservas(Date checkinn, Date checkoout) {
+	public void alterarReservas(Date checkinn, Date checkoout)  {
 
 		Date agora = new Date();
 		if (checkinn.before(agora) || checkoout.before(agora)) {
-			return " As datas de atualização  devem ser futuras";
-			
-		} else if (!checkoout.after(checkinn)) {
-			
-			return "a data de saida dever ser apos a data de entrada";
+			throw new DominioException(" As datas de atualização  devem ser futuras");
+
+		}
+		if (!checkoout.after(checkinn)) {
+
+			throw new DominioException("a data de saida dever ser apos a data de entrada");
 		} else {
 			this.checkin = checkinn;
 			this.checkout = checkoout;
-			return null;
+			
 		}
-		
+
 	}
 
 	@Override
